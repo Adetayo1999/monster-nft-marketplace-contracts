@@ -1,6 +1,10 @@
 import "dotenv/config";
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-etherscan";
+import "hardhat-deploy";
+import "hardhat-gas-reporter";
 
 const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL;
 const GOERLI_PRIVATE_KEY = process.env.GOERLI_PRIVATE_KEY;
