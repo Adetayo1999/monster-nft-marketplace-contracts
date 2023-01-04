@@ -12,7 +12,11 @@ contract MonsterNFT is ERC721Enumerable, Ownable {
     uint s_tokenIds;
 
     // events
-    event MonsterNFT__NFTMinted(address indexed, uint tokenId, uint nftPrice);
+    event MonsterNFT__NFTMinted(
+        address indexed buyer,
+        uint tokenId,
+        uint nftPrice
+    );
 
     constructor() ERC721("Monster NFT", "MNFT") {}
 

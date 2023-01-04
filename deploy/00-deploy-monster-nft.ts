@@ -1,8 +1,9 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DEV_CHAINS } from "../utils/dev-chains";
 import { verify } from "../utils/verify-contract";
+import { DeployFunction } from "hardhat-deploy/dist/types";
 
-export default async ({
+const deployMonsterNFT: DeployFunction = async ({
   deployments,
   network,
   ethers,
@@ -33,3 +34,6 @@ export default async ({
     console.log(error);
   }
 };
+
+export default deployMonsterNFT;
+deployMonsterNFT.tags = ["all", "monsterNFT"];
