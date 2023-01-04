@@ -96,7 +96,9 @@ import { BigNumber } from "ethers";
           const contractOwnerFinalBalance = await ethers.provider.getBalance(
             accounts[0].address
           );
-          const totalAmountExpectedInContract = nftPrice.mul(BigNumber.from(9));
+          const totalAmountExpectedInContract = nftPrice.mul(
+            BigNumber.from(accounts.length - 1)
+          );
           const totalGasFee = txReceipt.gasUsed.mul(
             txReceipt.effectiveGasPrice
           );
