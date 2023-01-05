@@ -110,4 +110,23 @@ import { BigNumber } from "ethers";
           );
         });
       });
+
+      describe("tokenURI function", () => {
+        it("throws an error when trying to access uri of an unminted token", async () => {
+          await expect(monsterNFT.tokenURI("30")).to.revertedWith(
+            "ERC721: invalid token ID"
+          );
+        });
+
+        it("returns a token uri when a token is successfully minted", async () => {
+          const txResponse = await monsterNFT.mint({ value: nftPrice });
+          const txReceipt = await txResponse.wait();
+          const tokenURI = await monsterNFT.tokenURI(
+            txReceipt.events?.[1]?.args?.[1]
+          );
+          expect(tokenURI).to.equal(
+            `ipfs://QmXztwDKYaBkyAqZj8LYby6aUfyAzSR4UkSnxpU4aqHnUU/1.json`
+          );
+        });
+      });
     });
