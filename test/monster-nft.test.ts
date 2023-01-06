@@ -129,4 +129,13 @@ import { BigNumber } from "ethers";
           );
         });
       });
+
+      describe("getBaseURI and setBaseURI funtions", () => {
+        it("checks the baseUri is set correctly", async () => {
+          const FAKE_BASE_URL = "ipfs://some-fake-uri/";
+          await monsterNFT.setBaseURI(FAKE_BASE_URL);
+          const baseUri = await monsterNFT.getBaseURI();
+          expect(baseUri).to.equal(FAKE_BASE_URL);
+        });
+      });
     });
