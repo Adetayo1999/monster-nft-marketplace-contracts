@@ -11,8 +11,8 @@ error NftMarketPlace__InvalidPriceSent(address, uint256, uint256, address);
 error NftMarketPlace__NftNotListed();
 error NftMarketPlace__NotEnoughETH(address, uint256, uint256, uint256);
 error NftMarketPlace__NotEnoughProceeds();
-error NftMarketPlace__NotEnoughETHInMarketPlace();
 error NftMarketPlace__ProceedsWithdrawalFailed();
+error NftMarketPlace__InvalidNFTAddress();
 
 contract NftMarketPlace is ReentrancyGuard {
     struct Listing {
@@ -68,6 +68,11 @@ contract NftMarketPlace is ReentrancyGuard {
         address _nftAddress
     ) {
         IERC721 nftTokenContract = IERC721(_nftAddress);
+
+        // if (!nftTokenContract.supportsInterface(type(IERC721).interfaceId)) {
+        //     revert NftMarketPlace__InvalidNFTAddress();
+        // }
+
         if (nftTokenContract.ownerOf(_tokenId) != _spender) {
             revert NftMarketPlace__NotNftOwner();
         }
@@ -172,10 +177,6 @@ contract NftMarketPlace is ReentrancyGuard {
         if (amount == 0) {
             revert NftMarketPlace__NotEnoughProceeds();
         }
-
-        if (amount > address(this).balance) {
-            revert NftMarketPlace__NotEnoughETHInMarketPlace();
-        }
         s_proceeds[msg.sender] = 0;
         (bool success, ) = payable(msg.sender).call{value: amount}("");
         if (!success) revert NftMarketPlace__ProceedsWithdrawalFailed();
@@ -191,4 +192,8 @@ contract NftMarketPlace is ReentrancyGuard {
     function getProceed() external view returns (uint256) {
         return s_proceeds[msg.sender];
     }
+
+    fallback() external payable {}
+
+    receive() external payable {}
 }
